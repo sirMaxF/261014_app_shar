@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <title>Shake test</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <main>
+        <h1>Shake detector</h1>
+
+        <div class="status">
+            <span>Статус:</span>
+            <b id="status">выключено</b>
+        </div>
+
+        <div class="controls">
+            <button id="btn-enable">Включить</button>
+            <button id="btn-disable" disabled>Выключить</button>
+            <button id="btn-manual">Симулировать встряхивание</button>
+        </div>
+
+        <div class="settings">
+            <label>
+                Порог: <span id="lbl-threshold">15</span>
+                <input type="range" id="inp-threshold" min="5" max="40" value="15" />
+            </label>
+            <label>
+                Cooldown, мс: <span id="lbl-cooldown">1000</span>
+                <input type="range" id="inp-cooldown" min="200" max="3000" step="100" value="1000" />
+            </label>
+        </div>
+
+        <div class="log">
+            <div class="log-head">
+                <span>Лог</span>
+                <button id="btn-clear">Очистить</button>
+            </div>
+            <pre id="log"></pre>
+        </div>
+
+        <div class="last-shake">
+            Последнее встряхивание:
+            <b id="last-shake">—</b>
+        </div>
+    </main>
+
+    <script src="shake.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
