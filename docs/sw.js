@@ -7,7 +7,7 @@ const FAYLY = [
     './app.js',
     './shake.js',
     './const.js',
-    './manifest.webmanifest',
+    './manifest.json',
     './logo96.png',
     './logo192.png',
     './logo512.png',

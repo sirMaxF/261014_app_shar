@@ -2,7 +2,7 @@
     "name": "Магический шар",
     "short_name": "Магический шар",
     "description": "Встряхни телефон и получи предсказание",
-    "start_url": "./index.html",
+    "start_url": "/261014_app_shar/index.html",
     "display": "standalone",
     "theme_color": "#1c1440",
     "background_color": "#1c1440",
@@ -13,18 +13,18 @@
     ],
     "icons": [
         {
-            "src": "logo96.png",
+            "src": "/261014_app_shar/logo96.png",
             "sizes": "96x96",
             "type": "image/png"
         },
         {
-            "src": "logo192.png",
+            "src": "/261014_app_shar/logo192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "logo512.png",
+            "src": "/261014_app_shar/logo512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
