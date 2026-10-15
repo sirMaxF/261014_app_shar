@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "io.github.sirmaxf.twa",
+            "sha256_cert_fingerprints": [
+                "52:F2:F9:71:13:74:02:91:4B:A3:49:1A:4B:B8:3F:2D:C8:AF:1C:7F:9F:C2:68:F0:B5:63:BD:0A:54:9F:55:46"
+            ]
+        }
+    }
+]
