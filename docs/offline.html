@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="theme-color" content="#0b0822" />
+    <title>Нет соединения</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <canvas id="bg"></canvas>
+
+    <main>
+        <div class="ball-wrap">
+            <div class="ball" id="ball">
+                <svg viewBox="0 0 512 512" width="100%" height="100%" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4be1c3" />
+                            <stop offset="50%" stop-color="#4b9de1" />
+                            <stop offset="100%" stop-color="#9b4be1" />
+                        </linearGradient>
+                        <linearGradient id="ballGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#241b52" />
+                            <stop offset="100%" stop-color="#100b2e" />
+                        </linearGradient>
+                    </defs>
+                    <g fill="none" stroke="url(#ring)" stroke-width="10" stroke-linecap="round" opacity="0.9">
+                        <circle cx="256" cy="256" r="212" stroke-dasharray="330 1330" transform="rotate(-60 256 256)" />
+                        <circle cx="256" cy="256" r="186" stroke-dasharray="180 987" transform="rotate(140 256 256)"
+                            opacity="0.65" />
+                    </g>
+                    <g fill="#4be1c3">
+                        <circle cx="118" cy="118" r="12" />
+                        <circle cx="404" cy="330" r="9" />
+                    </g>
+                    <circle cx="392" cy="112" r="8" fill="#9b4be1" />
+                    <circle cx="256" cy="256" r="148" fill="url(#ballGrad)" stroke="url(#ring)" stroke-width="9" />
+                    <text x="256" y="316" font-family="'Segoe UI', Arial, sans-serif" font-size="170" font-weight="800"
+                        fill="url(#ring)" text-anchor="middle">?</text>
+                    <path d="M170 170 q34 -30 74 -34" fill="none" stroke="#ffffff" stroke-width="9"
+                        stroke-linecap="round" opacity="0.45" />
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="title">Нет соединения</h1>
+        <p class="hint">Шар потерял связь с миром. Проверьте интернет и попробуйте снова.</p>
+
+        <button class="ask" id="btn-retry" style="cursor:pointer;">
+            Попробовать снова
+        </button>
+
+        <a href="index.html" class="ask" style="text-decoration:none; display:inline-block; text-align:center;">
+            На главную
+        </a>
+    </main>
+
+    <script>
+        document.getElementById('btn-retry').addEventListener('click', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+
+</html>

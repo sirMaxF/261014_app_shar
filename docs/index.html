@@ -4,52 +4,91 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <title>Shake test</title>
+    <meta name="theme-color" content="#0b0822" />
+    <title>Магический шар</title>
     <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
+    <canvas id="fon"></canvas>
+
     <main>
-        <h1>Shake detector</h1>
-
-        <div class="status">
-            <span>Статус:</span>
-            <b id="status">выключено</b>
-        </div>
-
-        <div class="controls">
-            <button id="btn-enable">Включить</button>
-            <button id="btn-disable" disabled>Выключить</button>
-            <button id="btn-manual">Симулировать встряхивание</button>
-        </div>
-
-        <div class="settings">
-            <label>
-                Порог: <span id="lbl-threshold">15</span>
-                <input type="range" id="inp-threshold" min="5" max="40" value="15" />
-            </label>
-            <label>
-                Cooldown, мс: <span id="lbl-cooldown">1000</span>
-                <input type="range" id="inp-cooldown" min="200" max="3000" step="100" value="1000" />
-            </label>
-        </div>
-
-        <div class="log">
-            <div class="log-head">
-                <span>Лог</span>
-                <button id="btn-clear">Очистить</button>
+        <div class="shar-obvotka">
+            <div class="shar" id="shar">
+                <svg viewBox="0 0 512 512" width="100%" height="100%" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="karto" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#4be1c3" />
+                            <stop offset="50%" stop-color="#4b9de1" />
+                            <stop offset="100%" stop-color="#9b4be1" />
+                        </linearGradient>
+                        <linearGradient id="ballGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#241b52" />
+                            <stop offset="100%" stop-color="#100b2e" />
+                        </linearGradient>
+                    </defs>
+                    <g fill="none" stroke="url(#karto)" stroke-width="10" stroke-linecap="round" opacity="0.9">
+                        <circle cx="256" cy="256" r="212" stroke-dasharray="330 1330" transform="rotate(-60 256 256)" />
+                        <circle cx="256" cy="256" r="186" stroke-dasharray="180 987" transform="rotate(140 256 256)"
+                            opacity="0.65" />
+                    </g>
+                    <g fill="#4be1c3">
+                        <circle cx="118" cy="118" r="12" />
+                        <circle cx="404" cy="330" r="9" />
+                    </g>
+                    <circle cx="392" cy="112" r="8" fill="#9b4be1" />
+                    <circle cx="256" cy="256" r="148" fill="url(#ballGrad)" stroke="url(#karto)" stroke-width="9" />
+                    <text x="256" y="316" font-family="'Segoe UI', Arial, sans-serif" font-size="170" font-weight="800"
+                        fill="url(#karto)" text-anchor="middle">?</text>
+                    <path d="M170 170 q34 -30 74 -34" fill="none" stroke="#ffffff" stroke-width="9"
+                        stroke-linecap="round" opacity="0.45" />
+                </svg>
             </div>
-            <pre id="log"></pre>
         </div>
 
-        <div class="last-shake">
-            Последнее встряхивание:
-            <b id="last-shake">—</b>
-        </div>
+        <h1 class="zagolovok">Магический шар</h1>
+        <p class="podskazka" id="podskazka">Задайте вопрос и тряхните телефон</p>
+
+        <div class="predskazanie" id="predskazanie" aria-live="polite"></div>
+
+        <button class="knopka" id="knopka">Спросить</button>
     </main>
 
+    <script src="const.js"></script>
     <script src="shake.js"></script>
     <script src="app.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((reg) => {
+                        console.log('Service Worker зарегистрирован');
+                        // Если есть обновлённый воркер в режиме ожидания — активируем сразу
+                        if (reg.waiting) {
+                            reg.waiting.postMessage({ action: 'skipWaiting' });
+                        }
+                        // Слушаем обновление
+                        reg.onupdatefound = () => {
+                            const newWorker = reg.installing;
+                            newWorker.onstatechange = () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Новый воркер готов, активируем без перезагрузки
+                                    newWorker.postMessage({ action: 'skipWaiting' });
+                                }
+                            };
+                        };
+                    })
+                    .catch((err) => console.error('SW ошибка:', err));
+            });
+        }
+    </script>
 </body>
 
 </html>
