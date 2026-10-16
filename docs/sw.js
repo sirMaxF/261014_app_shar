@@ -45,32 +45,42 @@ self.addEventListener('activate', (sobytie) => {
     self.clients.claim();
 });
 
-// ── запросы: сначала кэш, потом сеть ──
+// ── запросы: stale-while-revalidate ──
 self.addEventListener('fetch', (sobytie) => {
+    const zaklop = sobytie.request.clone();
     sobytie.respondWith(
-        caches.match(sobytie.request).then((izKESha) => {
-            if (izKESha) return izKESha;
-            return fetch(sobytie.request).then((otvet) => {
-                if (!otvet || otvet.status !== 200) {
-                    // Сервер вернул 404 → отдаём кэшированную 404-страницу
-                    if (otvet && otvet.status === 404 && sobytie.request.destination === 'document') {
-                        return caches.match('./404.html');
+        caches.open(IMYA_KE_SHA).then(async (kesh) => {
+            // 1) Сразу отдаём из кэша (stale)
+            const izKESha = await caches.match(sobytie.request);
+            // 2) Фоновое обновление (revalidate)
+            const setVSet = async () => {
+                try {
+                    const otvet = await fetch(sobytie.request);
+                    if (otvet && otvet.status === 200) {
+                        const kopiyA = otvet.clone();
+                        await kesh.put(sobytie.request, kopiyA);
                     }
-                    return otvet;
+                } catch {
+                    // Ошибка сети — оставляем старое
                 }
-                // Кэшируем обычные запросы + файлы шрифтов (CORS)
-                const etoShrift = (otvet.headers && otvet.headers.get('content-type') || '').includes('font');
-                if (otvet.type === 'basic' || etoShrift) {
-                    const kopiyA = otvet.clone();
-                    caches.open(IMYA_KE_SHA).then((kesh) => kesh.put(sobytie.request, kopiyA));
-                }
-                return otvet;
-            }).catch(() => {
-                // Ошибка сети (офлайн) → отдаём offline-страницу
-                if (sobytie.request.destination === 'document') {
-                    return caches.match('./offline.html');
-                }
-            });
+            };
+            setVSet();
+            // 3) Возвращаем кэш; если нет — пробуем сеть
+            if (izKESha) return izKESha;
+            const izSeti = await fetch(sobytie.request).catch(() => null);
+            if (izSeti && izSeti.status === 200) {
+                const kopiyA = izSeti.clone();
+                await kesh.put(sobytie.request, kopiyA);
+                return izSeti;
+            }
+            // 4) Офлайн: fallback-страницы
+            if (sobytie.request.destination === 'document') {
+                const izKESha404 = await caches.match('./404.html');
+                if (izKESha404) return izKESha404;
+                const izKEShaOffline = await caches.match('./offline.html');
+                if (izKEShaOffline) return izKEShaOffline;
+            }
+            return new Response('', { status: 404 });
         })
     );
 });

@@ -122,11 +122,11 @@
         void elPredskazanie.offsetWidth;
 
         elShar.classList.add('puls');
-        setTimeout(() => elShar.classList.remove('puls'), 1000);
+        setTimeout(() => elShar.classList.remove('puls'), 1700);
         setTimeout(() => {
             elPredskazanie.classList.add('pokazano');
             elPredskazanie.textContent = vybratPredskazanie()
-        }, 1000);
+        }, 1700);
     }
 
     // ── события ──
