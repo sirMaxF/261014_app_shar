@@ -8,6 +8,8 @@
     const knopka = $('knopka');
     const canvasFon = $('fon');
 
+    const LS_KEY = 'magicball.shakeEnabled';
+
     // ── фон: множество мелких шариков на canvas ──
     const ctx = canvasFon.getContext('2d');
     let shari = [];
@@ -129,6 +131,7 @@
 
     // ── события ──
     window.addEventListener('vzryv', (e) => {
+        if (!Vibratsiya.isRunning()) return;
         const sil = e.detail?.delta ? e.detail.delta / 20 : 1;
         vzryv(sil);
         pokazatPredskazanie();
@@ -138,10 +141,13 @@
         if (!Vibratsiya.isRunning()) {
             const ok = await Vibratsiya.vklyuchit();
             if (ok) {
+                try { localStorage.setItem(LS_KEY, '1'); } catch { }
                 elPodskazka.textContent = 'Трясите телефон или нажмите ещё раз';
                 knopka.textContent = 'Спросить';
             } else {
+                try { localStorage.removeItem(LS_KEY); } catch { }
                 elPodskazka.textContent = 'Нет доступа к сенсорам — нажмите ещё раз';
+                return;
             }
         }
         vzryv(2);
@@ -158,7 +164,22 @@
         sozdatShari();
     });
 
-    // автовключение без запроса (сработает, если разрешение уже выдавалось)
-    // для первого раза всё равно нужен user gesture
-    elPodskazka.textContent = 'Нажмите «Спросить» и трясите телефон';
+    // автовключение при повторных запусках, если разрешение уже выдавалось
+    (async () => {
+        let flag = false;
+        try { flag = localStorage.getItem(LS_KEY) === '1'; } catch { }
+
+        if (flag) {
+            const ok = await Vibratsiya.vklyuchit();
+            if (ok) {
+                elPodskazka.textContent = 'Трясите телефон или нажимайте кнопку';
+                knopka.textContent = 'Спросить';
+                return;
+            }
+            try { localStorage.removeItem(LS_KEY); } catch { }
+        }
+
+        elPodskazka.textContent = 'Нажмите «Активировать», чтобы включить шар';
+        knopka.textContent = 'Активировать';
+    })();
 })();
