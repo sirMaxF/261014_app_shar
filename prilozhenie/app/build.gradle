@@ -23,7 +23,7 @@ plugins {
 def twaManifest = [
     applicationId: 'io.github.sirmaxf.twa',
     hostName: 'sirmaxf.github.io', // The domain being opened in the TWA.
-    launchUrl: '/261014_app_shar/index.html', // The start path for the TWA. Must be relative to the domain.
+    launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
     name: 'Магический шар', // The application name.
     launcherName: 'Магошар', // The name shown on the Android Launcher.
     themeColor: '#1C1440', // The color used for the status bar.
@@ -57,8 +57,8 @@ android {
         applicationId "io.github.sirmaxf.twa"
         minSdkVersion 21
         targetSdkVersion 36
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "2"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -76,12 +76,12 @@ android {
             // The URL the Web Manifest for the Progressive Web App that the TWA points to. This
             // is used by Chrome OS and Meta Quest to open the Web version of the PWA instead of
             // the TWA, as it will probably give a better user experience for non-mobile devices.
-            resValue "string", "webManifestUrl", 'https://sirmaxf.github.io/261014_app_shar/manifest.json'
+            resValue "string", "webManifestUrl", 'https://6ad3c3f1f6adf2eb65efcce0--silver-maamoul-ae8bb0.netlify.app/manifest.json'
         
 
         
             // This is used by Meta Quest.
-            resValue "string", "fullScopeUrl", 'https://sirmaxf.github.io/261014_app_shar/'
+            resValue "string", "fullScopeUrl", 'https://6ad3c3f1f6adf2eb65efcce0--silver-maamoul-ae8bb0.netlify.app/'
         
 
         

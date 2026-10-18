@@ -1,4 +1,0 @@
-#Thu Oct 15 22:27:44 MSK 2026
-base.0=C\:\\Users\\79208\\Desktop\\261014_app_shar\\prilozhenie\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
